@@ -1,0 +1,210 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+
+
+<html lang="ja">
+    <head>
+        <title>
+            inui_song_lists
+        </title>
+    
+        <meta http-equiv='Content-Type' content="text/html" ; charset="UTF-8"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/jquery.tablesorter.min.js"></script>
+        <script src="{% static 'javascript/PaginateMyTable.js' %}"></script>
+        
+
+         <script src="{% static 'javascript/script.js' %}"></script>
+
+         <link rel = 'stylesheet' Type="text/css" href='{% static "css/style.css"%}'/>
+         
+    </head>
+    <body>
+        <div id="wrapper"><canvas id="myCanvas" ></canvas></div>
+
+        <div id="container"> 
+            <h1 class="head1" onclick="double()">
+                いぬいどんどんうたってく
+            </h1><br />
+           
+            
+
+         <div  class="news-container">
+            <input type="text" id="search"> 
+            <input type="button" value="絞り込む" id="button">
+            <input type="button" value="すべて表示" id="button2">
+            
+          <table id="grid-basic"  class="sort-table">
+          <thead>
+            <tr>
+              <th  >曲名</th>
+              <th >歌手</th>
+              <th class="image" data-sorter="false">リンク</th>
+              <th data-column-id="upload_date" data-order="date">日付</th>
+              <th data-sorter="false" >動画タイトル</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for list in form %}
+            <tr>
+                <td>{{list.song_title}}</td>
+                <td>{{list.singer}}</td>
+                
+                <td ><a href="{{list.song_url}}" class="enable" target="_blank"><img src="{% static 'songlist/youtube_social_icon_red.png' %}" alt="no image"  class="img1"></a></td>
+                <td>{{list.upload_date}}</td>
+                <td>{{list.video_title}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+          </table>
+         </div>
+        </div>
+
+        <script>
+           
+            $(function(){
+                $('.sort-table').tablesorter({
+                    textExtraction: function(node){
+                        var attr = $(node).attr('data-value');
+                        if(typeof attr !== 'undefined' && attr !== false){
+                            return attr;
+                        }
+                        return $(node).text();
+                    }
+                });
+            });
+
+            $(function(){
+                $('#button').bind("click",function(){
+                    var re = new RegExp($('#search').val());
+                    $('#grid-basic tbody tr').each(function(){
+                        var tr = $(this);
+                        tr.hide();
+                        $('td', this).each(function(){
+                            var txt = $(this).html();
+                            if(txt.match(re) != null){
+                                tr.show();
+                            }
+                        });
+                    });
+                });
+                $('#button2').bind("click",function(){
+                    $('#grid-basic tr').show();
+                    $('#search').val('');
+                });
+            });
+
+            $(document).ready(function() {
+                $(".sort-table").paginate();
+              });
+              
+           
+        </script>
+    </body>
+    
+</html>
+<script>
+
+    $(function () {
+        sizing();
+       
+        $(window).resize(function() {
+            sizing();
+            double();
+        });
+    });
+    // div#wrapperからcanvas#cnvsのサイズをもらう（#wrapperのサイズはCSSで）
+    function sizing(){
+        $('#myCanvas').attr({height:$('#wrapper').height()});
+        $('#myCanvas').attr({width:$('#wrapper').width()});
+    };
+
+    
+</script>
+
+
+{% comment %} <head>
+        <title>
+            inui_song_lists
+        </title>
+    
+        <meta http-equiv='Content-Type' content="text/html" ; charset="UTF-8"/>
+        <link rel = 'stylesheet' Type="text/css" href='{% static "style.css"%}'/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+        <script src="{% static 'javascript/search.js' %}"></script>
+        <script src="{% static 'javascript/sort.js' %}"></script>
+        <script src="{% static 'javascript/script.js' %}"></script>
+    </head>
+
+    <body>
+        <div id="wrapper"><canvas id="myCanvas" ></canvas></div>
+        {% comment %} width="1500" height="450" {% endcomment %}
+
+
+         {% comment %}
+        <div id="container">
+        <h1 class="head1" onclick="double()">
+            いぬいどんどんうたってく
+        </h1><br />
+        
+        <input type="search" class="light-table-filter" data-table="order-table" placeholder="検索" />
+        <table id="sort_table">
+            <tr>
+                <th>曲名</th>
+                <th>歌手</th>
+                <th class="url_link">リンク</th>
+                <th>日付</th>
+                <th>動画タイトル</th>
+            </tr>
+            {% for list in form %}
+            <tr>
+                <td>{{list.song_title}}</td>
+                <td>{{list.singer}}</td>
+                
+                <td class="url_link"><a href="{{list.song_url}}"><img src="{% static "songlist/youtube_social_icon_red.png" %}" class="img1"></a>
+                <td>{{list.upload_date}}</td>
+                <td>{{list.video_title}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <style>
+            #sort_table {
+                border-collapse:collapse;
+            }
+            #sort_table td {
+                border:1px solid lightgray; 
+            }
+            #sort_table th {
+                cursor:pointer;
+                 background-color:lightgray;
+            }
+            </style>
+
+            
+        </div>
+            
+    </body>
+     <!--   jQuery・bootstrapライブラリ読み込み -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <link  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+        <!--  /jQuery・bootstrapライブラリ読み込み -->
+
+         <!--  独自ライブラリ読み込み -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.min.js" ></script>
+         <!--  /独自ライブラリ読み込み -->
+         $(function() {
+        $("#grid-basic").bootgrid({
+          labels: {
+              noResults: "検索結果 0件",
+              infos: "全 {{ctx.total}}件中 / {{ctx.start}}～{{ctx.end}}まで表示"
+              
+          }  
+        
+       } );
+      }); 
+      {% endcomment %}
+   

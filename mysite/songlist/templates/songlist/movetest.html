@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body onload="initialize()">
+<canvas id="test" width="320" height="320"></canvas>
+	<img id="map001" src="mysite\songlist\static\songlist\inui2.png" style="display:none" />
+	<img id="map002" src="mysite\songlist\static\songlist\youtube_social_icon_red.png" style="display:none" />
+	<img id="character1" src="mysite\songlist\static\songlist\inui1.png" style="display:none" />
+    <script>
+        "use strict";
+        var map = [//マップデータ
+            [0,0,0,0,0,0,0,0,0,1],
+            [0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,1],
+            [0,0,0,0,0,1,0,0,0,0],
+            [0,0,0,0,0,1,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,1],
+            [0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0],	
+        ];
+    
+        var gc,px=0,py=0;
+    
+    
+        function initialize(){
+            gc = document.getElementById("test").getContext("2d");
+            document.onkeydown = keydown;
+            paint();
+        }
+    
+        function keydown(e){
+                var hitx = px,hity = py;//当たり判定用の変数を作成
+            switch(e.keyCode){
+                case 39:
+                if((map[hity][hitx+1]) == 0){
+                    px++;//右移動
+                }
+                    break;
+                case 37:
+                if((map[hity][hitx-1]) == 0){
+                    px--;//左移動
+                }
+                    break;
+                case 38:
+                if(py > 0){
+                if((map[hity-1][hitx]) == 0){
+                    py--;//上移動
+                }
+                }
+                    break;
+                case 40:
+                if(py < 9){
+                if((map[hity+1][hitx]) == 0){
+                    py++;//下移動
+                }
+                }
+                    break;
+            }
+    
+            paint();	
+        }
+    
+        function paint(){
+            for(var y = 0; y<map.length;y++){
+                for(var x = 0;x<map[y].length;x++){
+                    if(map[y][x] == 0){
+                        gc.drawImage(map001,x*32,y*32,32,32);
+    
+                    }
+                    if(map[y][x] == 1){
+                        gc.drawImage(map001,x*32,y*32,32,32);
+                        gc.drawImage(map002,x*32,y*32,32,32);
+    
+                    }
+                }
+            }
+            gc.drawImage(character1,px*32,py*32,32,32);
+        }
+        </script>
+</body>
+</html>

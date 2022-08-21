@@ -1,0 +1,30 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<head>
+
+<html lang="ja">
+    <head>
+        <meta http-equiv='Content-Type' content="text/html" ; charset="UTF-8"/>
+        <title>test</title>
+        
+        <link rel = 'stylesheet' Type="text/css" href='{% static "test.css"%}'/>
+        <script src="{% static 'javascript/script.js' %}"></script>
+    </head>
+
+    <body>
+      <h1 id='ange'>おまたせ</h1>
+        
+        
+        <canvas id="myCanvas" width="1500" height="700">
+           
+        </canvas>
+        <input type="button" value="button" class="fall"  onclick="double()";>
+        <input type="button" value="button2" onclick="draw2()";>
+
+        {% comment %} <p id="change">色変える</p>
+        <input type="button" value=" ボタン " onclick="changeColor('change');" /> {% endcomment %}
+       
+    </body>
+</html>

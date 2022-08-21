@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{%load static%}
+</head>
+<meta http-equiv='Content-Type' content="text/html" ; charset="UTF-8"/>
+<link rel = 'stylesheet'  href="{% static 'style.css' %}" />
+</head>
+
+<html>
+    <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>曲登録</title>
+    </head>
+    <body>
+        <h1>登録してください</h1>
+        <form action="/songlist/input/" method="post">
+            {% csrf_token %}
+        <table>{{song_form.as_table}}</table>
+        <button type='submit'>登録</button>
+        </form>
+    </body>
+</html>
