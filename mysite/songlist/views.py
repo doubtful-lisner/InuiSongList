@@ -1,5 +1,5 @@
 from email import message
-from msilib.schema import tables
+#from msilib.schema import tables
 from venv import create
 
 from django.http import HttpResponse
